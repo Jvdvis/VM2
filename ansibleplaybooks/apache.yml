@@ -1,0 +1,12 @@
+---
+  - hosts: webservers
+    become: true
+    
+    tasks:
+    - name: Install Apache2
+      apt: name=apache2 update_cache=yes state=latest
+
+    - name: Copy Index.html
+    template:
+      src: "/home/Vagrant/VM2/ansibleplaybooks/roles/webservers/index.html.j2"
+      dest: "/var/www/{{ http_host_dir }}/index.html"

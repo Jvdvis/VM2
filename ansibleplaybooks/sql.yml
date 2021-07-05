@@ -1,0 +1,46 @@
+---
+- hosts: database
+  become: true
+  tasks:
+    - name: Install MySQL
+      apt: 
+        name: "{{ packages }}"
+        update_cache: yes
+        state: latest
+      vars:
+        packages:
+          - mysql-server
+          - mysql-client
+          - python-mysql
+
+    - name: Create Database
+    mysql_db:
+      name: test
+      state: present
+
+    - name: Create Database user
+    mysql_user:
+      name: vagrant
+      password: vagrant
+      priv: '*.*:ALL'
+      host: '192.168.50.11'
+      host: '192.168.50.12'
+      state: present
+
+    #- name: Create Table
+    #  copy: src=test_dump.sql dest=/tmp/test_dump.sql
+
+    #- name: Import Table
+    #mysql_db: name=test state=import target=/tmp/test_dump.sql
+
+    - name: Bind remote address MySQL
+      ini_file:
+        dest: /etc/mysql/my.cnf
+        section: mysqld
+        option: bind-address
+        value: 0.0.0.0
+    
+    - name: Start MySQL 
+      service:
+        name: mysql
+        state: restarted

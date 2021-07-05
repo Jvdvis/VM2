@@ -1,0 +1,29 @@
+---
+  - hosts: loadbalancer
+    remote_user: vagrant
+    become: yes
+    become_method: sudo
+
+    tasks:
+      - name: install haproxy
+        apt:
+          update_cache: yes
+          name: haproxy
+          state: present
+      
+      - name: configure haproxy 1 of 2
+        replace:
+          dest: /etc/default/haproxy
+          regexp: ENABLED=0
+          replace: ENABLED=1
+      
+      - name: configure haproxy 2 of 2
+        template:
+          src: /home/Vagrant/VM2/ansibleplaybooks/haproxy.cfg
+          dest: /etc/haproxy/haproxy.cfg
+          backup: yes
+        notify: 
+          - restart haproxy
+    handlers: 
+      - name: restart haproxy
+        service: name=haproxy state=restarted

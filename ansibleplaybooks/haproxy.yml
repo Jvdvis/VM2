@@ -1,0 +1,30 @@
+---
+- hosts: loadbalancer
+  become: yes
+
+vars:
+  haproxy_app_name: myapp
+  haproxy_mode: http
+  haproxy_enable_stats: enable
+  haproxy_algorithm: roundrobin
+  haproxy_backend_servers:
+    - {name: web01, ip: 192.168.50.11, port: 80, paramstring: cookie A check}
+    - {name: web02, ip: 192.168.50.12, port: 80, paramstring: cookie A check}
+  haproxy_stats_users:
+    - {username: vagrant, password: vagrant}
+tasks:
+  - name: install haproxy
+    apt: name=haproxy update_cache=yes state=latest
+  - name: Enable init script
+    replace: dest='/etc/default/haproxy'
+      regexp='ENABLED=0' 
+      replace='ENABLED=1'
+  - name: Update haproxy configuration
+  template: src=/home/Vagrant/VM2/haproxy.cfg
+    dest=/etc/haproxy/haproxy.cfg
+    backup=yes
+  notify:
+    - restart haproxy
+handlers:
+  - name: restart haproxy
+    service: name=haproxy state=restarted

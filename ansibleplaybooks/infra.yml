@@ -1,0 +1,19 @@
+---
+#web config with web role
+- hosts: webservers
+  become: yes
+  roles:
+    - geerlingguy.apache
+
+#loadbalancer config with loadbalancer role
+- hosts: loadbalancer
+  become: yes
+  roles:
+    - geerlingguy.haproxy
+
+
+#Database config with database role
+- hosts: database
+  become: yes
+  roles:
+    - geerlingguy.mysql

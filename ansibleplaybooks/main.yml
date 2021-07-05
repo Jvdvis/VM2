@@ -1,0 +1,29 @@
+---
+- name: Update apt update_cache
+  apt:
+    update_cache: yes
+
+- name: install haproxy & socat
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+    - haproxy
+    - socat
+    gather_facts: yes
+  
+- name: enable haproxy
+- lineinfile:
+  dest: /etc/default/haproxy
+  regexp: "^ENABLED"
+  line: "ENABLED=1"
+
+- name: deploy haproxy config
+template:
+  src: /home/Vagrant/VM2/ansibleplaybooks/roles/geerlingguy.haproxy/templates/haproxy.cfg.j2
+  dest: /etc/haproxy/haproxy.cfg
+  backup: yes
+notify: restart haproxy
+tags:
+  -deploy haproxy config
