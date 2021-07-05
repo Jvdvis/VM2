@@ -2,7 +2,7 @@
 envdir=/home/Vagrant/VM2/klanten
 
 echo "In this script you will delete a environment of a client"
-sleep 1
+sleep 2
 echo "Name the client:"
 read client_name
 echo "This client has the following environments active at this moment:"
@@ -15,7 +15,7 @@ echo ""$environment_client" possible environments:"
 sleep 1
 (cd /$envdir/$client_name/$environment_client ; ls)
 echo ""
-echo "What environment do you want deleted?"
+echo "What environment do you want deleted? Only fill in the number."
 read environment_count
 
 if [[ $environment_client == Test ]];

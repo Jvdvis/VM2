@@ -1,0 +1,21 @@
+<?php include 'config.php'; ?>
+<?php $name=$pwd="";
+if(isset($_POST['Send'])){
+        $vm_id = $_POST['vm_id'];
+        $vm_name = $_POST['vm_name'];
+        $vm_ip = $_POST['vm_ip'];
+        $reg_date = $_POST['reg_date'];
+        $mysqli->query("insert into vm2database(vm_id,vm_name,vm_ip,reg_date) values('$vm_id', '$vm_name', '$vm_ip', '$reg_date')");
+        if(!$mysqli){
+                echo mysqli_error();
+        }else{
+                echo "The Data has been placed in the following database: vm2database <br />";
+        }
+}
+?>
+<html>
+<form method="get" action="index.php">
+    <button type="submit">Back</button>
+</form>
+</html>
+

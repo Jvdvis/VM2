@@ -1,0 +1,8 @@
+---
+- name: Enable HAproxy
+  lineinfile:
+    dest: /etc/default/haproxy
+    regexp: "^ENABLED.+$"
+    line: "ENABLED=1"
+    state: present
+  when: ansible_os_family == 'Debian'

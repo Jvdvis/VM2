@@ -3,17 +3,17 @@
 - hosts: webservers
   become: yes
   roles:
-    - geerlingguy.apache
+    - web
 
 #loadbalancer config with loadbalancer role
-- hosts: loadbalancer
+- hosts: loadbalancers
   become: yes
   roles:
-    - geerlingguy.haproxy
+    - lb
 
 
 #Database config with database role
-- hosts: database
+- hosts: databaseservers
   become: yes
   roles:
-    - geerlingguy.mysql
+    - db

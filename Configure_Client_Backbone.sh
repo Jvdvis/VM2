@@ -21,7 +21,7 @@ echo ""
 echo "$client_name, today we will configure your desired backbone."
 
 #Picking desired environment: Test or Production environments
-echo "What sort of environment will you need?"
+echo "What sort of environment will you need? (Please, just fill in the number of your choice)"
 environment_picks=("Test" "Production" "GoBack")
 
 select opt in "${environment_picks[@]}"
@@ -53,7 +53,7 @@ echo ""
 if [ ! -d /$envdir/$client_name/$environment_client ]; then
 	environment_count=1
 	echo "We have not detected a $environment_client environment, configuring $environment_client$environment_count"
-	sleep 1
+	sleep 2
 else
 	echo "We have detected an existing $environment_client environment"
 	existing_environment=$(ls -l /home/Vagrant/VM2/klanten/$client_name/$environment_client |wc -l)
@@ -68,10 +68,10 @@ fi
 if [ $customer == "new_client" ]; then
 	echo "Configuring home directory for you: $client_name"
 	mkdir -p $envdir/$client_name
-	sleep 1
+	sleep 2
 	echo "Configuring $environment_client environment"
 	mkdir -p $envdir/$client_name/$environment_client
-	sleep 1
+	sleep 2
 	echo "Configuring $environment_client$environment_count"
 	mkdir -p $envdir/$client_name/$environment_client/$environment_client$environment_count
 elif [ $customer == "returning_client" ]; then
@@ -81,16 +81,16 @@ elif [ $customer == "returning_client" ]; then
 		mkdir -p $envdir/$client_name/$environment_client/$environment_client$environment_count
 	else
 		echo "Environment detected"
-		sleep 1
+		sleep 2
 		echo "Configuring new environment: $environment_client$environment_count"
 		mkdir -p $envdir/$client_name/$environment_client/$environment_client$environment_count
-		sleep 1
+		sleep 2
 	fi
 fi
 
 #Vagrantfile configuration
 read -p "How many different hosts will we be making? " host_count
-sleep 1
+sleep 2
 
 #Create hostfiles with known variables
 touch $envdir/$client_name/$environment_client/$environment_client$environment_count/cluster
@@ -104,9 +104,9 @@ echo "[databaseservers]" >>$envdir/$client_name/$environment_client/$environment
 echo "cluster = {" > $envdir/$client_name/$environment_client/$environment_client$environment_count/cluster
 
 #Specify virtual machines for Virtualbox
-sleep 1
+sleep 2
 clear
-declare -A specify_vm
+declare -A vm_info
 for (( vm=1; vm<=$host_count; vm++))
 do
 	echo "Configure $vm"
@@ -117,12 +117,12 @@ do
 	read -p "Specify the Role of the virtual machine: web, lb or db?" vm_role
 	read -p "Specify memory in mb (512 recomended): " vm_memory
 
-	specify_vm[vmnaam]=$vm_name
-	specify_vm[vbnaam]=$vb_name
-	specify_vm[vm_hostname]=$vm_hostname
-	specify_vm[vm_ip]=$vm_ip
-	specify_vm[vm_memory]=$vm_memory
-	specify_vm[vm_role]=$vm_role
+	vm_info[vm_name]=$vm_name
+	vm_info[vb_name]=$vb_name
+	vm_info[vm_hostname]=$vm_hostname
+	vm_info[vm_ip]=$vm_ip
+	vm_info[vm_memory]=$vm_memory
+	vm_info[vm_role]=$vm_role
 
 echo " '$vm_name' => { :ip => '$vm_ip', :mem => $vm_memory }, " >> $envdir/$client_name/$environment_client/$environment_client$environment_count/cluster
 
@@ -152,13 +152,13 @@ cp /home/Vagrant/VM2/ansibleplaybooks/ansible.cfg $envdir/$client_name/$environm
 cp -r /home/Vagrant/VM2/ansibleplaybooks/roles $envdir/$client_name/$environment_client/$environment_client$environment_count/
 
 #Vagrant up - change owner to vagrant - change directory to chosen client
-sudo chown -R vagrant /home/Vagrant
+sudo chown -R Vagrant /home/Vagrant
 cd $envdir/$client_name/$environment_client/$environment_client$environment_count
 vagrant up
 
 clear
-sleep 1
-echo "Ping Pong testing"
+sleep 2
+echo "Ping Pong testing, this may take a while."
 
 result="fatal"
 
