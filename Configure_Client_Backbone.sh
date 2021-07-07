@@ -132,7 +132,7 @@ do
 
 echo " '$vm_name' => { :ip => '$vm_ip', :mem => $vm_memory }, " >> $envdir/$client_name/$environment_client/$environment_client$environment_count/cluster
 
-# Insert information in created hostfiles created 
+# Insert information in created hostfiles created & Private key
 if [ $vm_role = "web" ]; then
 	echo "$vm_ip ansible_user=vagrant ansible_private_key_file=.vagrant/machines/$vm_name/virtualbox/private_key" >> $envdir/$client_name/$environment_client/$environment_client$environment_count/webservers
 elif [ $vm_role = "lb" ]; then
