@@ -5,7 +5,7 @@ $sql = "SELECT vm_id, vm_name, vm_ip, reg_date FROM vm2database";
 
 $result = $mysqli->query($sql);
 
-echo "<h2>This is currently in the Database</h2>";
+echo "<h2>This currently is the data in the database:</h2>";
 
 echo "<table border='1'>";
 
@@ -37,7 +37,7 @@ body {
 <body>
 <p>This is <?php echo gethostname();?></p>
 <h2>Add VM:</h2>
-<form action="vm2database_table.php" method="post">
+<form action="vm2db_table.php" method="post">
 <table border="1">
 <tr>
 <td>VM ID:</td>

@@ -1,0 +1,7 @@
+- name: Create database vm2database
+  mysql_db:
+    name: vm2database
+    state: present
+    login_user: root
+    login_password: 
+

@@ -1,0 +1,25 @@
+- name: Copy configuration
+  copy: src=files/nginx.conf dest=/etc/nginx/sites-available/default
+- name: Configure nginx
+  file: >
+    dest=/etc/nginx/sites-enabled/default
+    src=/etc/nginx/sites-available/default
+    state=link
+    force=yes
+- name: Copy index.php
+  template: src=files/index.php.j2 dest=/usr/share/nginx/html/index.php
+    mode=0644
+
+- name: Copy background
+  copy:
+    src: files/background.png
+    dest: /usr/share/nginx/html/background.png
+
+- name: Copy vm2database_table.php
+  template: src=files/vm2db_table.php.j2 dest=/usr/share/nginx/html/vm2db_table.php
+    mode=0644
+- name: Copy config.php
+  template: src=files/config.php.j2 dest=/usr/share/nginx/html/config.php
+    mode=0644
+  notify:
+  - Restart nginx

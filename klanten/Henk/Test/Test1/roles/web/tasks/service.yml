@@ -1,0 +1,6 @@
+---
+- name: Restart nginx
+  service: name=nginx state=restarted
+- name: php-fpm install
+  service: name=php5-fpm state=restarted
+

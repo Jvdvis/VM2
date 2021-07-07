@@ -1,0 +1,19 @@
+---
+#web config with web role
+- hosts: webservers
+  become: yes
+  roles:
+    - web
+
+#loadbalancer config with loadbalancer role
+- hosts: loadbalancers
+  become: yes
+  roles:
+    - lb
+
+
+#Database config with database role
+- hosts: databaseservers
+  become: yes
+  roles:
+    - db

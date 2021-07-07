@@ -1,0 +1,7 @@
+[webservers]
+192.168.2.10 ansible_user=vagrant ansible_private_key_file=.vagrant/machines/JVweb1/virtualbox/private_key
+192.168.2.11 ansible_user=vagrant ansible_private_key_file=.vagrant/machines/JVweb2/virtualbox/private_key
+[loadbalancers]
+192.168.2.12 ansible_user=vagrant ansible_private_key_file=.vagrant/machines/JVlb/virtualbox/private_key
+[databaseservers]
+192.168.2.13 ansible_user=vagrant ansible_private_key_file=.vagrant/machines/JVdb/virtualbox/private_key
