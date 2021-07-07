@@ -1,0 +1,2 @@
+[loadbalancers]
+192.168.2.21 ansible_user=vagrant ansible_private_key_file=.vagrant/machines/S1049160Lb1/virtualbox/private_key

@@ -1,0 +1,2 @@
+[databaseservers]
+192.168.2.31 ansible_user=vagrant ansible_private_key_file=.vagrant/machines/S1049160Db1/virtualbox/private_key

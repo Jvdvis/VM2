@@ -1,0 +1,76 @@
+<html>
+<body>
+<h1>Welcome! On this webserver you can insert data in the database. You can also see what host is hosting the webserver.</h1>
+</body>
+</html>
+
+<?php
+include 'config.php';
+# config.php includes mysql details and error handling
+
+$sql = "SELECT vm_id, vm_name, vm_ip, reg_date FROM vm2database";
+
+$result = $mysqli->query($sql);
+
+echo "<h2>This is currently in the Database, you can insert data in the form below</h2>";
+
+echo "<table border='1'>";
+
+while ($info = mysqli_fetch_array($result)) {
+    echo "<tr><td>VM ID</td><td>".($info['vm_id'])."</td></tr>";
+    echo "<tr><td>VM Name:</td><td>".($info['vm_name'])."</td></tr>";
+    echo "<tr><td>VM IP:</td><td>".($info['vm_ip'])."</td></tr>";
+    echo "<tr><td>Register Date:</td><td>".($info['reg_date'])."</td></tr>";
+}
+echo "</table>";
+?>
+
+<html>
+<head><title>Welcome! This website is made for the lab requirement of VM2 </title>
+<style>
+
+body {
+    background-image: url('background.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    color:grey;
+}
+</style>
+
+</head>
+<br><br>
+<body>
+<h2>Host information:</h2>
+<p>You are currently watching the index on: <?php echo gethostname();?></p>
+<h2>Here you can enter the details for a new VM in the database:</h2>
+
+<form action="vm2database_table.php" method="post">
+<table border="1">
+<tr>
+<td>VM ID:</td>
+<td><input type="text" name="vm_id" /></td>
+</tr>
+<br>
+<tr>
+<td>VM name:</td>
+<td><input type="text" name="vm_name" /></td>
+</tr>
+<br>
+<tr>
+<td>VM IP:</td>
+<td><input type="text" name="vm_ip" /></td>
+</tr>
+<tr>
+<td>Register Date:</td>
+<td><input type="text" name="reg_date" /></td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td><input type="submit" name="Send" value="SUBMIT" /></td>
+</tr>
+</table>
+</body>
+</html>
+
+

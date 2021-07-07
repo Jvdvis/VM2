@@ -1,0 +1,19 @@
+<?php
+
+# Printing errors on screen
+error_reporting(E_ALL); ini_set('display_errors', 'On');
+
+# mysql information
+$hostname = "192.168.2.31";
+$username = "vm2database";
+$password = "vm2database";
+$database = "vm2database";
+
+# Connect to vm2database
+$mysqli = new mysqli(
+    $hostname,
+    $username,
+    $password,
+    $database );
+?>
+
