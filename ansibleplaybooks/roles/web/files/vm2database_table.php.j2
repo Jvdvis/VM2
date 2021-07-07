@@ -1,4 +1,6 @@
-<?php include 'config.php'; ?>
+<?php include 'config.php'; 
+# config.php includes mysql details and error handling
+?>
 <?php $name=$pwd="";
 if(isset($_POST['Send'])){
         $vm_id = $_POST['vm_id'];
@@ -12,6 +14,7 @@ if(isset($_POST['Send'])){
                 echo "The Data has been placed in the following database: vm2database <br />";
         }
 }
+#Data being inserted from the form on index.php
 ?>
 <html>
 <form method="get" action="index.php">

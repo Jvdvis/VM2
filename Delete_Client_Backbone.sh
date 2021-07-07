@@ -1,5 +1,8 @@
 #!/bin/bash
 envdir=/home/Vagrant/VM2/klanten
+#Change envdir to needed env directory
+
+#This script will delete the environment of a chosen client, it cannot delete the clients home.
 
 echo "In this script you will delete a environment of a client"
 sleep 2

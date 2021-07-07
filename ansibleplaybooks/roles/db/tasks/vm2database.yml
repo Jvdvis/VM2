@@ -1,4 +1,4 @@
-- name: Copy vm2database.sql naar /tmp
+- name: Copy vm2database.sql to temp
   copy: src=files/vm2database.sql dest=/tmp/vm2database.sql
 - name: Import vm2database.sql
   mysql_db:

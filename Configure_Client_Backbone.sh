@@ -1,5 +1,11 @@
 #!/bin/bash
 envdir=/home/Vagrant/VM2/klanten
+#Change envdir to needed env directory
+
+# This Script will create a client environment based on the clients needs, it uses Vagrant and Ansible
+
+### WATCH OUT FOR START UP BUG FROM UBUNTU, RESET IN VIRTUAL BOX WHEN NEEDED ###
+
 
 #Configure New Client
 read -p "Insert the name of the client: " client_name
@@ -64,7 +70,7 @@ else
 	sleep 2
 fi
 
-#Using picked variables to create folders
+#Using picked variables to create folders following the map structure made in Lab opbouw: envdir/Name/Environment/Environment#/
 if [ $customer == "new_client" ]; then
 	echo "Configuring home directory for you: $client_name"
 	mkdir -p $envdir/$client_name
@@ -92,7 +98,7 @@ fi
 read -p "How many different hosts will we be making? " host_count
 sleep 2
 
-#Create hostfiles with known variables
+#Create cluster for Vagrantfile, create roles
 touch $envdir/$client_name/$environment_client/$environment_client$environment_count/cluster
 touch $envdir/$client_name/$environment_client/$environment_client$environment_count/hosts
 touch $envdir/$client_name/$environment_client/$environment_client$environment_count/webservers
@@ -103,7 +109,7 @@ touch $envdir/$client_name/$environment_client/$environment_client$environment_c
 echo "[databaseservers]" >>$envdir/$client_name/$environment_client/$environment_client$environment_count/databaseservers
 echo "cluster = {" > $envdir/$client_name/$environment_client/$environment_client$environment_count/cluster
 
-#Specify virtual machines for Virtualbox
+#Specify virtual machines for Virtualbox by VM name, VirtualBox name, Hostname, IP-address, Ansible Role and memory
 sleep 2
 clear
 declare -A vm_info
@@ -139,14 +145,14 @@ done
 
 echo " }" >> $envdir/$client_name/$environment_client/$environment_client$environment_count/cluster
 
-#Vagrant and cluster info merge
+#Creating Vagrantfile using filled in credentials en choices
 cp /home/Vagrant/VM2/Vagrantfile $envdir/$client_name/$environment_client/$environment_client$environment_count/templatevagrantfile
 cat $envdir/$client_name/$environment_client/$environment_client$environment_count/cluster $envdir/$client_name/$environment_client/$environment_client$environment_count/templatevagrantfile > $envdir/$client_name/$environment_client/$environment_client$environment_count/Vagrantfile
 
-#Merge Role and Hosts
+#Creating Hosts file by adding all roles to it
 cat $envdir/$client_name/$environment_client/$environment_client$environment_count/webservers $envdir/$client_name/$environment_client/$environment_client$environment_count/loadbalancers $envdir/$client_name/$environment_client/$environment_client$environment_count/databaseservers > $envdir/$client_name/$environment_client/$environment_client$environment_count/hosts
 
-#Copy templates
+#Copy templates to client directory
 cp /home/Vagrant/VM2/ansibleplaybooks/infra.yml $envdir/$client_name/$environment_client/$environment_client$environment_count/
 cp /home/Vagrant/VM2/ansibleplaybooks/ansible.cfg $envdir/$client_name/$environment_client/$environment_client$environment_count/
 cp -r /home/Vagrant/VM2/ansibleplaybooks/roles $envdir/$client_name/$environment_client/$environment_client$environment_count/
@@ -158,7 +164,7 @@ vagrant up
 
 clear
 sleep 2
-echo "Ping Pong testing, this may take a while."
+echo "Ping Pong testing, this may take a while. Make sure servers are booting regulary."
 
 result="fatal"
 
@@ -168,7 +174,7 @@ while [[ $result =~ "fatal" ]]
   echo $result;
 done
 
-#Playing playbooks
+#Playing playbook, triggering all picked roles
 echo ""
 echo "Playing Playbooks, it's been a pleasure doing this with you!"
 ansible-playbook infra.yml

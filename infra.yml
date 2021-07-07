@@ -1,0 +1,20 @@
+---
+# This yml is triggered by Configure_Client_Backbone.sh and triggers needed roles found in: /home/Vagrant/VM2/ansibleplaybooks/roles
+# Web config with web role
+- hosts: webservers
+  become: yes
+  roles:
+    - web
+
+# Loadbalancer config with loadbalancer role
+- hosts: loadbalancers
+  become: yes
+  roles:
+    - lb
+
+
+# Database config with database role
+- hosts: databaseservers
+  become: yes
+  roles:
+    - db
