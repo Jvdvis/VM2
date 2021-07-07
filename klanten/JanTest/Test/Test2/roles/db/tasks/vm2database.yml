@@ -1,9 +1,0 @@
-- name: Copy vm2database.sql naar /tmp
-  copy: src=files/vm2database.sql dest=/tmp/vm2database.sql
-- name: Import vm2database.sql
-  mysql_db:
-    state: import
-    name: all
-    target: /tmp/vm2database.sql
-    login_user: root
-    login_password: 

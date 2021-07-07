@@ -1,9 +1,0 @@
----
-- name: Install mySQL
-  apt: name=mysql-server update_cache=yes
-- name: Install python-mysqldb
-  apt: name=python-mysqldb update_cache=yes
-- name: Start mySQL service
-  service: name=mysql state=restarted
-
-
